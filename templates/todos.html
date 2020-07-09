@@ -6,27 +6,31 @@
     <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
-<h1>Todos</h1>
-<form action="/add-todo" method="post">
-    <label for="title">Title</label>
-    <input id='title' type="text" placeholder="Title" name="title">
-    <label for="content">Details</label>
-    <textarea id="content" placeholder="Details..." name="content"></textarea>
-    <button>Save</button>
-</form>
+<main class="todo__container">
+    <div class="todo__inner">
+        <h1>Todos</h1>
+        <form action="/add-todo" method="post" class="todo__form">
+            <label for="title">Title</label>
+            <input id='title' type="text" placeholder="Title" name="title" class="form-input">
+            <label for="content">Details</label>
+            <textarea id="content" placeholder="Details..." name="content" class="form-input"></textarea>
+            <button>Save</button>
+        </form>
 
-<div class="todo__list">
-    {{if not .PageTodos}}
-        <h2>No todos</h2>
-    {{else}}
-        {{range .PageTodos}}
-            <div class="todo__item">
-                <p>{{.Title}}</p>
-                <p>{{.Content}}</p>
-            </div>
-        {{end}}
-    {{end}}
-</div>
+        <div class="todo__list">
+            {{if not .PageTodos}}
+                <h2>No todos</h2>
+            {{else}}
+                {{range .PageTodos}}
+                    <div class="todo__item">
+                        <p>{{.Title}}</p>
+                        <p>{{.Content}}</p>
+                    </div>
+                {{end}}
+            {{end}}
+        </div>
+    </div>
+</main>
 
 </body>
 </html>

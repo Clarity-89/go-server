@@ -1,6 +1,23 @@
+.todo__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.todo__inner {
+  max-width: 600px;
+}
+.todo__form {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
 .todo__list {
   display: flex;
   flex-direction: column;
+}
+
+.form-input {
+  margin-bottom: 6px;
 }
 
 /*# sourceMappingURL=index.css.map */

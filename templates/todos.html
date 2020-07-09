@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Todos</title>
+    <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
 <h1>Todos</h1>
@@ -14,12 +15,12 @@
     <button>Save</button>
 </form>
 
-<div class="list">
+<div class="todo__list">
     {{if not .PageTodos}}
         <h2>No todos</h2>
     {{else}}
         {{range .PageTodos}}
-            <div>
+            <div class="todo__item">
                 <p>{{.Title}}</p>
                 <p>{{.Content}}</p>
             </div>

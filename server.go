@@ -25,6 +25,7 @@ func todos(w http.ResponseWriter, r *http.Request) {
 const port = "8080"
 
 func main() {
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", home)
 	http.HandleFunc("/todos", todos)
 	fmt.Println("Running on port:", port)

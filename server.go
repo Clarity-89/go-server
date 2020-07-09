@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	db "go-server/services"
 	"html/template"
 	"log"
 	"net/http"
@@ -64,6 +65,7 @@ func addTodo(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	db.Init()
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", home)
 	http.HandleFunc("/todos/", listTodos)

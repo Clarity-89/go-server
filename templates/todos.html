@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Todos</title>
+    <title>{{.Title}}</title>
     <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
@@ -18,10 +18,10 @@
         </form>
 
         <div class="todo__list">
-            {{if not .PageTodos}}
+            {{if not .Todos}}
                 <h2>No todos</h2>
             {{else}}
-                {{range .PageTodos}}
+                {{range .Todos}}
                     <div class="todo__item">
                         <p>{{.Title}}</p>
                         <p>{{.Content}}</p>

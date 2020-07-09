@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-
+	"html/template"
 	"log"
+	"net/http"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -12,7 +12,14 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func todos(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Todos")
+	t, err := template.ParseFiles("templates/todos.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Print("Template parsing error:", err)
+	}
+
+	err = t.Execute(w, nil)
+
 }
 
 const port = "8080"

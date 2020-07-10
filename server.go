@@ -56,10 +56,17 @@ func addTodo(w http.ResponseWriter, r *http.Request) {
 		log.Print("Form parsing error:", err)
 	}
 
+	date, err := time.Parse("2006-01-02T15:04", r.FormValue("due_date"))
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Print("Date time parsing error:", err)
+	}
+
 	todo := models.TodoDTO{
 		Title:   r.FormValue("title"),
 		Content: r.FormValue("content"),
-		DueDate: time.Now(),
+		DueDate: date,
 	}
 
 	err = s.SaveTodo(todo)

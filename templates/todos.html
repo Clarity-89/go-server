@@ -11,9 +11,11 @@
         <h1>Todos</h1>
         <form action="/add-todo" method="post" class="todo__form">
             <label for="title">Title</label>
-            <input id='title' type="text" placeholder="Title" name="title" class="form-input">
+            <input id='title' type="text" placeholder="Title" name="title" class="form__input">
             <label for="content">Details</label>
-            <textarea id="content" placeholder="Details..." name="content" class="form-input"></textarea>
+            <textarea id="content" placeholder="Details..." name="content" class="form__input"></textarea>
+            <label for="due_date">Due date</label>
+            <input type="datetime-local" id="due_date" name="due_date" class="form__input">
             <button>Save</button>
         </form>
 
@@ -23,7 +25,10 @@
             {{else}}
                 {{range .Todos}}
                     <div class="todo__item">
-                        <p>{{.Title}}</p>
+                        <p class="item__label">Title</p>
+                        <p class="item__text">{{.Title}}</p>
+                        <p class="item__label">Due date</p>
+                        <p class="item__text">{{.DueDate.Format "15:04:05 - 02 Jan, 2006"}}</p>
                         <p>{{.Content}}</p>
                     </div>
                 {{end}}

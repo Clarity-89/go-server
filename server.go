@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
-	"go-server/services"
+	"go-server/models"
+	"go-server/services/storage"
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 const port = "8080"
@@ -21,6 +23,8 @@ type PageContext struct {
 }
 
 var todos []Todo
+
+var s = storage.Init()
 
 func home(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/index.html")
@@ -54,18 +58,23 @@ func addTodo(w http.ResponseWriter, r *http.Request) {
 		log.Print("Form parsing error:", err)
 	}
 
-	todo := Todo{
+	todo := models.TodoDTO{
 		Title:   r.FormValue("title"),
 		Content: r.FormValue("content"),
+		DueDate: time.Now(),
 	}
 
-	todos = append(todos, todo)
+	err = s.SaveTodo(todo)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Print("Data saving error:", err)
+		return
+	}
 
 	http.Redirect(w, r, "/todos/", http.StatusSeeOther)
 }
 
 func main() {
-	services.Init()
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", home)
 	http.HandleFunc("/todos/", listTodos)

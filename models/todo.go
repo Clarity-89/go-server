@@ -3,11 +3,11 @@ package models
 import "time"
 
 type DbTodo struct {
-	id        int64
+	Id        int64
 	Title     string
 	Content   string
-	DueDate   int64
-	CreatedAt int64
+	DueDate   time.Time
+	CreatedAt time.Time
 }
 
 type TodoDTO struct {

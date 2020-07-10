@@ -54,3 +54,25 @@ func (s Storage) SaveTodo(todo models.TodoDTO) error {
 	_, err := s.db.Exec(query, todo.Title, todo.Content, todo.DueDate, time.Now())
 	return err
 }
+
+func (s Storage) ListTodos() ([]models.DbTodo, error) {
+	rows, err := s.db.Query("SELECT * FROM todos")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	var todos []models.DbTodo
+	for rows.Next() {
+		var todo models.DbTodo
+		err := rows.Scan(&todo.Id, &todo.Title, &todo.Content, &todo.DueDate, &todo.CreatedAt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		todos = append(todos, todo)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return todos, err
+}

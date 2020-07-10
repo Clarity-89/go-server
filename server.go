@@ -12,17 +12,10 @@ import (
 
 const port = "8080"
 
-type Todo struct {
-	Title   string
-	Content string
-}
-
 type PageContext struct {
 	Title string
-	Todos []Todo
+	Todos []models.DbTodo
 }
-
-var todos []Todo
 
 var s = storage.Init()
 
@@ -37,6 +30,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func listTodos(w http.ResponseWriter, r *http.Request) {
+	todos, _ := s.ListTodos()
 	pageContext := PageContext{
 		Todos: todos,
 		Title: "Todos",

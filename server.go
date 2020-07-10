@@ -30,10 +30,14 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func listTodos(w http.ResponseWriter, r *http.Request) {
-	todos, _ := s.ListTodos()
+	todos, err := s.ListTodos()
 	pageContext := PageContext{
 		Todos: todos,
 		Title: "Todos",
+	}
+
+	if err != nil {
+		http.Redirect(w, r, "/500/", http.StatusInternalServerError)
 	}
 
 	t, err := template.ParseFiles("templates/todos.html")
@@ -68,11 +72,22 @@ func addTodo(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/todos/", http.StatusSeeOther)
 }
 
+func handle500(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/500.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Print("Template parsing error:", err)
+	}
+
+	err = t.Execute(w, nil)
+}
+
 func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", home)
 	http.HandleFunc("/todos/", listTodos)
 	http.HandleFunc("/add-todo", addTodo)
+	http.HandleFunc("/500/", handle500)
 	fmt.Println("Running on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
